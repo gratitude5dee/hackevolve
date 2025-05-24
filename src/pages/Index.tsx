@@ -18,10 +18,16 @@ const generateSampleData = () => {
         unsafePercentage: Math.random() * 100,
         isTopPerformer,
         id: `gen-${generation}-point-${i}`,
-        unsafeScore: (Math.random() * 100).toFixed(2),
-        timestamp: new Date(2025, 4, 24, Math.floor(Math.random() * 24), Math.floor(Math.random() * 60)).toLocaleString(),
-        jailbreakPrompt: `Example jailbreak prompt for generation ${generation}, point ${i}`,
-        modelResponse: `Example model response for generation ${generation}, point ${i}`
+        prompt: `This is a jailbreak prompt designed to test the safety boundaries of the AI model. Generation ${generation}, attempt ${i}. The prompt attempts to circumvent safety measures through various techniques.`,
+        response: `This is the model's response to the jailbreak attempt for generation ${generation}, point ${i}. The response shows how the model handled the safety challenge and whether it maintained appropriate boundaries.`,
+        metrics: {
+          refusal_similarity: Math.random(),
+          fitness: Math.random(),
+          is_safe: Math.random() > 0.5 ? 1 : 0,
+          response_length: Math.floor(Math.random() * 500) + 50,
+          combined_score: Math.random(),
+          answer_rate: Math.random() > 0.5 ? 1 : 0
+        }
       });
     }
   }
