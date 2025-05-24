@@ -74,13 +74,14 @@ export const ScatterPlot = ({ data, onDataPointClick }: ScatterPlotProps) => {
           />
           <YAxis
             type="number"
-            dataKey="fitness_score"
-            name="Fitness Score"
-            domain={['dataMin', 'dataMax']}
+            dataKey="unsafePercentage"
+            name="Unsafe Percentage"
+            domain={[0, 100]}
+            tickFormatter={(value) => `${value}%`}
             axisLine={{ stroke: '#6b7280' }}
             tickLine={{ stroke: '#6b7280' }}
             tick={{ fill: '#6b7280', fontSize: 12 }}
-            label={{ value: 'Fitness Score', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#6b7280' } }}
+            label={{ value: 'Unsafe Percentage', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#6b7280' } }}
           />
           <Scatter data={data} shape={<CustomDot />} />
         </ScatterChart>
