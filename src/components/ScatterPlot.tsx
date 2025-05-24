@@ -11,18 +11,19 @@ interface DataPoint {
   report_timestamp: number;
   language: string;
   metrics: {
-    fitness: number;
     is_safe: number;
     refusal_similarity: number;
-    response_length: number;
-    combined_score: number;
-    answer_rate: number;
+    response_raw_length: number;
+    response_log_length: number;
+    harmful_score: number;
+    composite_fitness: number;
   };
   prompt: string;
   response: string;
   label: string;
   unsafePercentage: number;
   isTopPerformer: boolean;
+  fitness_score: number;
 }
 
 interface ScatterPlotProps {
@@ -39,9 +40,10 @@ export const ScatterPlot = ({ data, onDataPointClick }: ScatterPlotProps) => {
       <circle
         cx={cx}
         cy={cy}
-        r={isTopPerformer ? 4 : 2}
+        r={isTopPerformer ? 6 : 4}
         fill={isTopPerformer ? "#ea580c" : "#92400e"}
-        stroke="none"
+        stroke="white"
+        strokeWidth={1}
         style={{ cursor: 'pointer' }}
         onClick={() => onDataPointClick(payload)}
       />
@@ -62,14 +64,13 @@ export const ScatterPlot = ({ data, onDataPointClick }: ScatterPlotProps) => {
           <CartesianGrid strokeDasharray="2 2" stroke="#e5e7eb" />
           <XAxis
             type="number"
-            dataKey="report_for_iteration"
-            name="Iteration"
-            domain={[0, 10]}
-            tickCount={11}
+            dataKey="fitness_score"
+            name="Fitness Score"
+            domain={[1, 3]}
             axisLine={{ stroke: '#6b7280' }}
             tickLine={{ stroke: '#6b7280' }}
             tick={{ fill: '#6b7280', fontSize: 12 }}
-            label={{ value: 'Iteration', position: 'insideBottom', offset: -5, style: { textAnchor: 'middle', fill: '#6b7280' } }}
+            label={{ value: 'Fitness Score', position: 'insideBottom', offset: -5, style: { textAnchor: 'middle', fill: '#6b7280' } }}
           />
           <YAxis
             type="number"
@@ -90,16 +91,16 @@ export const ScatterPlot = ({ data, onDataPointClick }: ScatterPlotProps) => {
       <div className="flex items-center justify-between mt-4 px-4">
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 rounded-full bg-orange-600"></div>
-            <span className="text-sm text-gray-600">Top performers</span>
+            <div className="w-6 h-6 rounded-full bg-orange-600 border-2 border-white"></div>
+            <span className="text-sm text-gray-600">Top performers (fitness ≥ 2.0)</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 rounded-full bg-yellow-800"></div>
+            <div className="w-4 h-4 rounded-full bg-yellow-800 border border-white"></div>
             <span className="text-sm text-gray-600">Other attempts</span>
           </div>
         </div>
         <div className="text-sm text-gray-600">
-          Current Iteration: {Math.max(...data.map(d => d.report_for_iteration))}/5
+          Total Attempts: {data.length}
         </div>
       </div>
     </div>
