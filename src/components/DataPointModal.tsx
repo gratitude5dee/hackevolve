@@ -22,8 +22,6 @@ interface DataPoint {
   prompt: string;
   response: string;
   label: string;
-  unsafePercentage: number;
-  isTopPerformer: boolean;
 }
 
 interface DataPointModalProps {
@@ -39,11 +37,8 @@ export const DataPointModal = ({ dataPoint, onClose }: DataPointModalProps) => {
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
-              Generation {dataPoint.generation}, Iteration {dataPoint.report_for_iteration}
+              Iteration {dataPoint.report_for_iteration}
             </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Unsafe %: {dataPoint.unsafePercentage.toFixed(2)}%
-            </p>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="w-5 h-5" />
