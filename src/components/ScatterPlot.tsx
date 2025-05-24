@@ -1,15 +1,28 @@
 
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell } from 'recharts';
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 interface DataPoint {
+  id: string;
   generation: number;
+  parent_id: string | null;
+  iteration_found: number;
+  report_for_iteration: number;
+  program_timestamp: number;
+  report_timestamp: number;
+  language: string;
+  metrics: {
+    fitness: number;
+    is_safe: number;
+    refusal_similarity: number;
+    response_length: number;
+    combined_score: number;
+    answer_rate: number;
+  };
+  prompt: string;
+  response: string;
+  label: string;
   unsafePercentage: number;
   isTopPerformer: boolean;
-  id: string;
-  unsafeScore: string;
-  timestamp: string;
-  jailbreakPrompt: string;
-  modelResponse: string;
 }
 
 interface ScatterPlotProps {
@@ -49,14 +62,14 @@ export const ScatterPlot = ({ data, onDataPointClick }: ScatterPlotProps) => {
           <CartesianGrid strokeDasharray="2 2" stroke="#e5e7eb" />
           <XAxis
             type="number"
-            dataKey="generation"
-            name="Generation"
-            domain={[0, 100]}
+            dataKey="report_for_iteration"
+            name="Iteration"
+            domain={[0, 10]}
             tickCount={11}
             axisLine={{ stroke: '#6b7280' }}
             tickLine={{ stroke: '#6b7280' }}
             tick={{ fill: '#6b7280', fontSize: 12 }}
-            label={{ value: 'Generation', position: 'insideBottom', offset: -5, style: { textAnchor: 'middle', fill: '#6b7280' } }}
+            label={{ value: 'Iteration', position: 'insideBottom', offset: -5, style: { textAnchor: 'middle', fill: '#6b7280' } }}
           />
           <YAxis
             type="number"
@@ -86,7 +99,7 @@ export const ScatterPlot = ({ data, onDataPointClick }: ScatterPlotProps) => {
           </div>
         </div>
         <div className="text-sm text-gray-600">
-          Current Generation: 100/100
+          Current Iteration: {Math.max(...data.map(d => d.report_for_iteration))}/5
         </div>
       </div>
     </div>
