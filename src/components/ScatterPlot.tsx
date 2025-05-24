@@ -64,24 +64,23 @@ export const ScatterPlot = ({ data, onDataPointClick }: ScatterPlotProps) => {
           <CartesianGrid strokeDasharray="2 2" stroke="#e5e7eb" />
           <XAxis
             type="number"
-            dataKey="fitness_score"
-            name="Fitness Score"
-            domain={[1, 3]}
+            dataKey="report_for_iteration"
+            name="Iteration"
+            domain={[1, 'dataMax']}
             axisLine={{ stroke: '#6b7280' }}
             tickLine={{ stroke: '#6b7280' }}
             tick={{ fill: '#6b7280', fontSize: 12 }}
-            label={{ value: 'Fitness Score', position: 'insideBottom', offset: -5, style: { textAnchor: 'middle', fill: '#6b7280' } }}
+            label={{ value: 'Iteration Number', position: 'insideBottom', offset: -5, style: { textAnchor: 'middle', fill: '#6b7280' } }}
           />
           <YAxis
             type="number"
-            dataKey="unsafePercentage"
-            name="Unsafe Percentage"
-            domain={[0, 100]}
-            tickFormatter={(value) => `${value}%`}
+            dataKey="fitness_score"
+            name="Fitness Score"
+            domain={['dataMin', 'dataMax']}
             axisLine={{ stroke: '#6b7280' }}
             tickLine={{ stroke: '#6b7280' }}
             tick={{ fill: '#6b7280', fontSize: 12 }}
-            label={{ value: 'Unsafe Percentage', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#6b7280' } }}
+            label={{ value: 'Fitness Score', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#6b7280' } }}
           />
           <Scatter data={data} shape={<CustomDot />} />
         </ScatterChart>
