@@ -3,20 +3,27 @@ import { X, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface DataPoint {
-  generation: number;
-  unsafePercentage: number;
-  isTopPerformer: boolean;
   id: string;
-  prompt: string;
-  response: string;
+  generation: number;
+  parent_id: string | null;
+  iteration_found: number;
+  report_for_iteration: number;
+  program_timestamp: number;
+  report_timestamp: number;
+  language: string;
   metrics: {
-    refusal_similarity: number;
     fitness: number;
     is_safe: number;
+    refusal_similarity: number;
     response_length: number;
     combined_score: number;
     answer_rate: number;
   };
+  prompt: string;
+  response: string;
+  label: string;
+  unsafePercentage: number;
+  isTopPerformer: boolean;
 }
 
 interface DataPointModalProps {
@@ -25,8 +32,6 @@ interface DataPointModalProps {
 }
 
 export const DataPointModal = ({ dataPoint, onClose }: DataPointModalProps) => {
-  const pointNumber = dataPoint.id.split('-').pop();
-  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4">
@@ -34,7 +39,7 @@ export const DataPointModal = ({ dataPoint, onClose }: DataPointModalProps) => {
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
-              Generation {dataPoint.generation}, Point {pointNumber}
+              Generation {dataPoint.generation}, Iteration {dataPoint.report_for_iteration}
             </h2>
             <p className="text-sm text-gray-600 mt-1">
               Unsafe %: {dataPoint.unsafePercentage.toFixed(2)}%
